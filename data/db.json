@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "idType": "CC",
+      "name": "andres",
+      "email": "andres@gmail.com",
+      "password": "123456",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "idType": "CC",
+      "name": "Fabra",
+      "email": "fabra@gmail.com",
+      "password": "1111",
+      "isActive": true
+    },
+    {
+      "id": "123123",
+      "idType": "CC",
+      "fullName": "Jose Fabra",
+      "email": "josefabra236598@correo.itm.edu.co",
+      "password": "123123123"
+    },
+    {
+      "id": "3",
+      "idType": "CC",
+      "fullName": "Jorge",
+      "email": "jorge@gmail.com",
+      "password": "123123123"
+    },
+    {
+      "id": "333",
+      "idType": "CC",
+      "fullName": "Jose Fabra",
+      "email": "josefabra236598@correo.itm.edu.co",
+      "password": "12345678"
+    }
+  ]
+}
