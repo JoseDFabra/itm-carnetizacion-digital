@@ -1,12 +1,13 @@
 import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'dashboard-navbar',
     templateUrl: 'navbar.component.html',
     standalone:true,
-    imports:[ CommonModule ],
+    imports:[ CommonModule, RouterModule ],
 
 })
 
