@@ -36,6 +36,20 @@
       "fullName": "Jose Fabra",
       "email": "josefabra236598@correo.itm.edu.co",
       "password": "12345678"
+    },
+    {
+      "id": "1",
+      "idType": "TI",
+      "fullName": "111@s.com",
+      "email": "111@s.com",
+      "password": "123123123123"
+    },
+    {
+      "id": "777",
+      "idType": "TI",
+      "fullName": "Jose Tapias",
+      "email": "j.fabra25@gmail.com",
+      "password": "123123123"
     }
   ]
 }
