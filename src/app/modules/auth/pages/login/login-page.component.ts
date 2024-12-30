@@ -1,18 +1,24 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
+import { SubtitleComponent } from '@shared/components/subtitle/subtitle.component';
+import { TitleComponent } from '@shared/components/title/title.component';
+import { OnlyNumbersDirective } from '@shared/directives/onlyNumbers.directive';
+import { SharedModule } from '@shared/shared.module';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'auth-login',
+  standalone: true,
+  imports: [SharedModule, ReactiveFormsModule, RouterModule  ],
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     //atributos que emplea el componente en si (app-login) en html
-    class: 'w-full gap-10 max-w-2xl p-6 text-white rounded-lg '
+    class: 'w-full max-w-lg p-6 '
   }
 })
 export default class LoginComponent {
@@ -37,6 +43,7 @@ export default class LoginComponent {
         return;
       }
       Swal.fire('Correcto', 'Has iniciado sesión correctamente','success')
+      this.router.navigate(['dashboard'])
 
     }
     )

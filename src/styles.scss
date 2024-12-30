@@ -10,7 +10,6 @@
   box-sizing: border-box;
 }
 
-
 li{ list-style: none;}
 
 a,img,span,input,select,button { display: block;}
@@ -22,7 +21,6 @@ a{
 img{ height: auto;}
 input,button,select{
   background-color: none;
-  border: none;
   font: inherit;
 }
 button{ cursor: pointer;}
@@ -38,17 +36,10 @@ select{
 }
 
 html{
-  font-family: "Montserrat", sans-serif;
-  font-size: 62.5%;
+  font-family: "Poppins", sans-serif;;
   scroll-behavior: smooth;
-  // overflow: scroll;
 }
-body{
-  background-color: #f2f5fa;
-  color: #0c0c0d;
-  font-size: 1.6rem;
-  line-height: 24px;
-}
+
 
 ::-webkit-scrollbar{ width: 12px;}
 ::-webkit-scrollbar-track{ background-color: #dadfe5}
@@ -57,3 +48,15 @@ body{
   border-radius: 4px;
 
 }
+
+label{
+  @apply block mb-1 text-base font-semibold 
+}
+
+input,select{
+  @apply block w-full p-4 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500
+}
+
+// span[errorValidator]{
+//   @apply text-red-500
+// }

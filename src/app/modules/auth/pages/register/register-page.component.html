@@ -1,0 +1,74 @@
+<div class="text-center mb-8 flex flex-col gap-2">
+    <h1 class="text-lg font-bold leading-none tracking-tight text-white md:text-xl lg:text-2xl">Registro ITM
+    </h1>
+    <p class="text-lg font-normal text-gray-300 lg:text-xl sm:px-16 xl:px-48">Ingresa tu información</p>
+</div>
+
+<form  [formGroup]="form">
+    <div class="w-full mb-6 grid gap-6 sm:grid-cols-2">
+        <div class="w-full">
+            <label for="idtype">Tipo de documento</label>
+            <select id="idtype" formControlName="idType">
+            <option selected hidden value="">Seleccione...</option>
+            <option *ngFor="let idType of idTypes" [value]="idType.value"> {{ idType.label }}</option>
+        </select>
+        <span errorValidator [errors]="form.get('idType')?.errors" [isTouched]="form.get('idType')?.touched"></span>
+    </div>
+    <div class="w-full">
+        <label for="documento">Documento</label>
+        <input type="text" id="id" formControlName="id"
+        placeholder="Ingresa tu documento" onlyNumbers>
+        <span errorValidator [errors]="form.get('id')?.errors" [isTouched]="form.get('id')?.touched"></span>
+        
+        </div>
+
+
+    </div>
+    <div class="w-full mb-6 grid gap-6 sm:grid-cols-2">
+        <div>
+            <label for="fullName">Nombre completo</label>
+            <input type="text" id="fullName" formControlName="fullName"
+            
+            placeholder="Ingresa tu nombre completo" required>
+            <span errorValidator [errors]="form.get('fullName')?.errors" [isTouched]="form.get('fullName')?.touched"></span>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" formControlName="email"
+                placeholder="Ingresa tu email" required>
+                <span errorValidator [errors]="form.get('email')?.errors" [isTouched]="form.get('email')?.touched"></span>
+            </div>
+            
+        </div>
+        
+        <div class="w-full mb-6 grid gap-6 sm:grid-cols-2">
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" formControlName="password"
+                placeholder="Ingresa tu contraseña" required>
+                <span errorValidator [errors]="form.get('password')?.errors" [isTouched]="form.get('password')?.touched"></span>
+            </div>
+            <div>
+                <label for="confirmPassword">Repetir contraseña</label>
+                <input type="password" id="confirmPassword" formControlName="confirmPassword"
+                placeholder="Repetir contraseña" required>
+                <span errorValidator [errors]="form.get('confirmPassword')?.errors" [isTouched]="form.get('confirmPassword')?.touched"></span>
+                
+        </div>
+    </div>
+
+    <button type="button" (click)="onSubmit()"
+        class="m-auto w-full max-w-sm px-6 py-4 hover:bg-neutral-200 active:bg-neutral-300 text-blue-800 font-medium bg-neutral-100 rounded-lg focus:outline-none focus:ring-2 ">
+        Registrarse
+    </button>
+</form>
+
+
+
+<p class="mt-2 text-base text-center  ">
+    ¿Ya tienes cuenta? <a routerLink="/auth/login" class="text-gray-100 font-medium hover:underline">Iniciar sesión</a>
+</p>
+
+
+<!-- <pre>{{this.form.get('confirmPassword')?.errors| json}}</pre> -->
+

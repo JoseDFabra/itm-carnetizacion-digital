@@ -1,22 +1,28 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, PatternValidator, ValidationErrors, Validators } from '@angular/forms';
-import { idTypes } from '@modules/auth/constants/idTypes.const';
+import { AbstractControl, FormBuilder, PatternValidator, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
+import { IDTYPES } from '@shared/constants/idTypes.const';
+import { SharedModule } from '@shared/shared.module';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'auth-register',
+  standalone: true,
+  imports: [ ReactiveFormsModule, SharedModule, RouterModule, CommonModule ],
+
+  templateUrl: './register-page.component.html',
+  styleUrls: ['./register-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
   host: {
     //atributos que emplea el componente en si (app-register) en html
-    class: 'w-full gap-10 max-w-7xl p-6 text-white rounded-lg flex flex-col justify-center items-center '
+    class: 'w-full max-w-4xl p-6  '
   }
 })
 export default class RegisterComponent {
   public fb = inject(FormBuilder);
-  public idTypes = idTypes
+  public idTypes = IDTYPES
   private authService = inject(AuthService);
   public form = this.fb.group({
     idType: ['', [Validators.required]],
@@ -59,10 +65,10 @@ export default class RegisterComponent {
       this.authService.register(user!).subscribe(user => {
         Swal.fire('Correcto', 'Te has registrado correctamente','success')
       })
-      this.form.reset();
-      this.form.markAsUntouched();
-      this.form.clearValidators();
-      this.form.updateValueAndValidity();
+      // this.form.reset();
+      // this.form.markAsUntouched();
+      // this.form.clearValidators();
+      // this.form.updateValueAndValidity();
     } else {
       console.log('no valid')
       this.form.markAllAsTouched();

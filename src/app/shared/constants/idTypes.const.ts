@@ -1,4 +1,4 @@
-export const idTypes = [
+export const IDTYPES = [
     { label: 'Cédula de Ciudadania', value:'CC'  },
     { label: 'Tarjeta de Identidad', value:'TI'  },
     { label: 'Cédula de Extranjeria', value:'CE'  },

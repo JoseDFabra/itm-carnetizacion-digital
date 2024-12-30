@@ -1,24 +1,16 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import LoginComponent from "./views/login/login.component";
-import RegisterComponent from "./views/register/register.component";
-import LayoutAuthComponent from "./layout/layout-auth.component";
+import { Routes } from "@angular/router";
 
 
-const routes: Routes = [
-    {
-        path:'',
-        component: LayoutAuthComponent,
-        children: [
+export const routes: Routes = [
           {
             path:'login',
-            component: LoginComponent,
-            title: 'ITM Ingreso'
+            loadComponent: () => import('@modules/auth/pages/login/login-page.component'),
+            title: 'ITM - Ingreso'
           },
           {
             path:'register',
-            component: RegisterComponent,
-            title: 'ITM Registrarse'
+            loadComponent: () => import('@modules/auth/pages/register/register-page.component'),
+            title: 'ITM - Registrarse'
           },
           {
             path:'',
@@ -30,16 +22,6 @@ const routes: Routes = [
             redirectTo: 'login'
           },
         ]
-    }
-]
+    
 
 
-@NgModule(
-  {
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
-  }
-)
-export class AuthRoutes{
-
-}

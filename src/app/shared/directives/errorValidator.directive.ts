@@ -30,7 +30,7 @@ export class ValidatorErrorDirective implements OnInit {
 
   setStyle():void {
     if ( !this.htmlElement )return;
-    this.htmlElement!.nativeElement.setAttribute('class', 'font-semibold text-red-500 text-2xl mt-2')
+    this.htmlElement!.nativeElement.setAttribute('class', 'font-medium text-red-500 text-base mt-2')
   }
 
   setErrorMessage():void {
