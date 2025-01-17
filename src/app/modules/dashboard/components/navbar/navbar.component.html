@@ -17,28 +17,24 @@
           <div class="flex items-center ms-3">
             <div>
               <button  type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 ">
-                <span class="sr-only">Open user menu</span>
                 <img  #drowpdownToggleBtn class="w-8 h-8 rounded-full" src="https://img.freepik.com/psd-premium/cristiano-ronaldo-png-cual-es-su-nombre_1303774-41789.jpg?semt=ais_hybrid" alt="user photo">
               </button>
             </div>
             <div #dropdown class="z-50 right-4 top-8 border absolute my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow " [ngClass]="{'hidden': !isDropdownVisible() }">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 " role="none">
-                  Jose Fabra
+                  {{ user?.fullName ?? null}}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate" role="none">
-                  {{'josefabra@itm.edu.com'}}
+                  {{ user?.email ?? null }}
                 </p>
               </div>
               <ul class="py-1" role="none">
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dashboard</a>
+                  <a class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Ajustes</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                  <a (click)="logout()"  class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Cerrar sesión</a>
                 </li>
               </ul>
             </div>

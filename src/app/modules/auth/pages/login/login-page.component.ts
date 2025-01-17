@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
-import { SubtitleComponent } from '@shared/components/subtitle/subtitle.component';
-import { TitleComponent } from '@shared/components/title/title.component';
-import { OnlyNumbersDirective } from '@shared/directives/onlyNumbers.directive';
 import { SharedModule } from '@shared/shared.module';
 import Swal from 'sweetalert2';
 
@@ -31,7 +27,7 @@ export default class LoginComponent {
   })
 
 
-  public onSumit() {
+  public onSubmit() {
     const { password, id } = this.form.value
     this.authService.login(id!, password!).subscribe(authenticated => {
       if (!authenticated) {

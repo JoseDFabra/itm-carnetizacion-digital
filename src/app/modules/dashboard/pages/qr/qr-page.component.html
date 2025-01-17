@@ -1,0 +1,67 @@
+<div *ngIf="qrData else notData" class="w-full p-6 bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+      <!-- Título -->
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">
+        Código QR Generado
+      </h1>
+
+      <div  class="flex flex-col items-center mb-8">
+        <div class="w-64 h-64 bg-gray-100 flex items-center justify-center rounded-lg shadow-md">
+          <div   id="qr-code">
+
+            <qrcode [qrdata]="qrData" [width]="260"></qrcode>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+          <input
+            id="email"
+            type="email"
+            class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            placeholder="Introduce un correo electrónico"
+          />
+        </div>
+        <div class="text-right">
+          <button
+            type="button"
+            class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300"
+            onclick="addEmailField()"
+          >
+            + Agregar otro correo
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <label for="whatsapp" class="block text-sm font-medium text-gray-700">Número de WhatsApp</label>
+        <input
+          id="whatsapp"
+          type="tel"
+          class="mt-1 w-full rounded-sm  border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          placeholder="Introduce un número de WhatsApp"
+        />
+      </div>
+
+      <div class="text-right mt-8">
+        <button
+          type="button"
+          class="px-6 py-2 bg-indigo-500 text-white rounded-sm shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+<ng-template #notData>
+  <div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">
+      Aún no hay data para generar códigos QR
+    </h1>
+    <p>Por favor, llene primero el formulario para generar el codigo QR temporal</p>
+  </div>
+</ng-template>

@@ -54,7 +54,7 @@ label{
 }
 
 input,select{
-  @apply block w-full p-4 text-gray-700 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500
+  @apply block w-full p-4 text-gray-700 border border-gray-300 rounded-sm bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500
 }
 
 // span[errorValidator]{

@@ -11,6 +11,18 @@ export const routes: Routes = [
         loadComponent: () => import('@modules/dashboard/pages/request/request-page.component')
       },
       {
+        path: 'generate-qr',
+        loadComponent: () => import('@modules/dashboard/pages/generate-qr/generate-qr-page.component')
+      },
+      {
+        path: 'qr',
+        loadComponent: () => import('@modules/dashboard/pages/qr/qr-page.component')
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('@modules/dashboard/pages/users/users-page.component')
+      },
+      {
         path: '**',
         redirectTo: 'requests'
       }

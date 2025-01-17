@@ -3,7 +3,7 @@
     {
       "id": "1",
       "idType": "CC",
-      "name": "jose",
+      "fullName": "jose",
       "email": "joseperez@gmail.com",
       "password": "123456",
       "isActive": true
@@ -11,7 +11,7 @@
     {
       "id": "2",
       "idType": "CC",
-      "name": "Fabra",
+      "fullNname": "Fabra",
       "email": "fabra@gmail.com",
       "password": "1111",
       "isActive": true
@@ -50,6 +50,99 @@
       "fullName": "Jose Tapias",
       "email": "j.fabra25@gmail.com",
       "password": "123123123"
+    }
+  ],
+  "carnets":[],
+  "requests": [
+    {
+      "id": "2023456",
+      "fullName": "Luis Fernando Torres",
+      "reason": "Extraviado",
+      "profile": "Estudiante",
+      "date": "2024-12-20",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/hombre-joven-sonriendo-camara_23-2147933348.jpg"
+    },
+    {
+      "id": "3084512",
+      "fullName": "Sofia Martínez",
+      "reason": "Nuevo",
+      "profile": "Docente",
+      "date": "2024-12-21",
+      "state": "approved",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-negocios-vestida-elegante_23-2147987788.jpg"
+    },
+    {
+      "id": "4512345",
+      "fullName": "Andrés Rodríguez",
+      "reason": "Actualización",
+      "profile": "Contratista",
+      "date": "2024-12-22",
+      "state": "rejected",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-joven-elegante-estilo-clasico_23-2147885647.jpg"
+    },
+    {
+      "id": "7896543",
+      "fullName": "Camila Gómez",
+      "reason": "Nuevo",
+      "profile": "Visitante",
+      "date": "2024-12-23",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/hermosa-mujer-joven-sonriendo-camara_23-2147939937.jpg"
+    },
+    {
+      "id": "9065421",
+      "fullName": "Juan Sebastián Morales",
+      "reason": "Deterioro",
+      "profile": "Estudiante",
+      "date": "2024-12-24",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/hombre-guapo-retrato-feliz_23-2147934018.jpg"
+    },
+    {
+      "id": "6578432",
+      "fullName": "Laura Sánchez",
+      "reason": "Extraviado",
+      "profile": "Docente",
+      "date": "2024-12-25",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-cabello-rizado-largo_23-2148040232.jpg"
+    },
+    {
+      "id": "2315647",
+      "fullName": "Valeria López",
+      "reason": "Nuevo",
+      "profile": "Visitante",
+      "date": "2024-12-26",
+      "state": "approved",
+      "photo": "https://img.freepik.com/foto-gratis/mujer-joven-sonriendo-camara_23-2147889683.jpg"
+    },
+    {
+      "id": "4512398",
+      "fullName": "Carlos Méndez",
+      "reason": "Actualización",
+      "profile": "Estudiante",
+      "date": "2024-12-27",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-barbudo-moderno-sonriente_23-2147989855.jpg"
+    },
+    {
+      "id": "7896547",
+      "fullName": "Isabella Torres",
+      "reason": "Nuevo",
+      "profile": "Contratista",
+      "date": "2024-12-28",
+      "state": "rejected",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-moderna-cabello-largo-sonriente_23-2147998479.jpg"
+    },
+    {
+      "id": "5698741",
+      "fullName": "Miguel Ángel Suárez",
+      "reason": "Extraviado",
+      "profile": "Profesor",
+      "date": "2024-12-29",
+      "state": "pending",
+      "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-joven-sonriente-camisa_23-2148209842.jpg"
     }
   ]
 }

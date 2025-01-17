@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '@modules/auth/services/auth.service';
 
 @Component({
     selector: 'dashboard-layout',
@@ -12,7 +13,11 @@ import { CommonModule } from '@angular/common';
 })
 
 export default class DasboardLayoutComponent implements OnInit {
-    public isSidebarInvisible: boolean = false;
+    public isSidebarInvisible: boolean = true;
+    private authService = inject( AuthService )
+    public  get currentUser(){
+        return this.authService.currentUser()
+    }
     constructor() { }
 
     ngOnInit() { }

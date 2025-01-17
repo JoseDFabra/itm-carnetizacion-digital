@@ -1,11 +1,15 @@
-<dashboard-navbar 
+<dashboard-navbar
+[user]="currentUser ?? undefined"
 [(isSidebarInvisible)]="isSidebarInvisible" 
 (isSidebarInvisibleChange)=" isSidebarInvisible = $event " 
 class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 "/>
 
 <dashboard-sidebar 
 [ngClass]="{'-translate-x-full': isSidebarInvisible}"
-class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform  
+class="fixed top-0  left-0 z-40 w-64 h-screen pt-20 transition-transform  
 bg-white border-r border-gray-200 sm:translate-x-0" 
 />
-<section class="p-4 sm:ml-64 mt-14"> <router-outlet /> </section>
+<!-- <div class="absolute bg-blue-900 rounded-sm h-20 w-full -z-10"></div> -->
+<section class="p-6 sm:ml-64 mt-14 bg-gray-50 min-h-screen "> 
+    <router-outlet /> 
+</section>
