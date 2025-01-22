@@ -1,6 +1,6 @@
 
-  <div *ngIf="currentRequest()" class="max-w-full mb-5 mx-auto p-6 bg-white rounded-lg ">
-    <div  class="grid md:grid-cols-2 items-start grid-cols-1 ">
+  <div *ngIf="currentRequest()" class="max-w-full h-full mb-5 mx-auto p-6 bg-white rounded-lg  shadow-md">
+    <div  class="grid lg:grid-cols-2 items-start grid-cols-1 ">
       <div class="flex space-x-4">
         <img *ngIf="currentRequest()?.photo"
         class="w-52 h-52 rounded-md object-cover cursor-pointer"
@@ -15,10 +15,10 @@
         </div>
       </div>
   
-      <div class="flex flex-col h-full justify-between md:mt-0 mt-2">
-        <div class="w-full">
+      <div class="flex flex-col h-full justify-between lg:mt-0 mt-2">
+        <div class="w-full lg:mb-0 mb-10 lg:mt-0 mt-6">
           <label for="observacion" class="block text-gray-700">Observación</label>
-          <textarea id="observacion" [formControl]="observation"
+          <textarea id="observacion" [formControl]="observation" [value]="currentRequest()!.observation"
             class="w-full h-full  mt-1 p-2 border rounded-sm " rows="3"></textarea>
         </div>
         <div class="mt-2 flex space-x-4">
@@ -37,11 +37,11 @@
     </div>
 
     <div
-  *ngIf="isModalOpen"
+  *ngIf="modal().isModalOpen"
   class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
 >
   <div
-    [ngClass]="{'fade-in': isModalOpen}"
+    [ngClass]="{'fade-in': modal().isModalOpen}"
     class="relative bg-white rounded-sm shadow-xl overflow-hidden w-11/12 md:w-1/2 lg:w-1/3 p-4"
   >
     <div class="flex items-center justify-between border-b border-gray-200 pb-3">
@@ -69,7 +69,7 @@
 
     <div class="mt-4 flex justify-center">
       <img
-        [src]="modalImage"
+        [src]="modal().modalImage"
         class="max-w-full max-h-96 rounded-lg object-cover"
         alt="Imagen"
       />
@@ -101,7 +101,7 @@
               <select
                 (change)="onFilterchange($event)"
               >
-                <option selected>Todos</option>
+                <option selected value="all">Todos</option>
                 <option value="pending">Pendientes</option>
                 <option value="approved">Aprobados</option>
                 <option value="rejected">Rechazados</option>
@@ -125,14 +125,14 @@
             
             <div >
       
-                <div class="relative">
+                <!-- <div class="relative">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
                     <input type="text" id="table-search" class="block pt-4 ps-10  " placeholder="Search for items">
-                </div>
+                </div> -->
             </div>
           </div>
       
@@ -169,7 +169,7 @@
         }
         "
         class="border-b cursor-pointer hover:opacity-80">
-          <th (click)=" currentRequest.set( request ) " class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+          <th (click)=" setCurrentRequest( request ) " class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
             {{ request.fullName }}
           </th>
           <td class="px-6 py-4">

@@ -61,6 +61,7 @@
       "profile": "Estudiante",
       "date": "2024-12-20",
       "state": "pending",
+      "observation": "", 
       "photo": "https://img.freepik.com/foto-gratis/hombre-joven-sonriendo-camara_23-2147933348.jpg"
     },
     {
@@ -70,6 +71,7 @@
       "profile": "Docente",
       "date": "2024-12-21",
       "state": "approved",
+      "observation": "", 
       "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-negocios-vestida-elegante_23-2147987788.jpg"
     },
     {
@@ -79,6 +81,7 @@
       "profile": "Contratista",
       "date": "2024-12-22",
       "state": "rejected",
+      "observation": "Mala cara", 
       "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-joven-elegante-estilo-clasico_23-2147885647.jpg"
     },
     {
@@ -87,6 +90,7 @@
       "reason": "Nuevo",
       "profile": "Visitante",
       "date": "2024-12-23",
+      "observation": "", 
       "state": "pending",
       "photo": "https://img.freepik.com/foto-gratis/hermosa-mujer-joven-sonriendo-camara_23-2147939937.jpg"
     },
@@ -96,6 +100,7 @@
       "reason": "Deterioro",
       "profile": "Estudiante",
       "date": "2024-12-24",
+      "observation": "", 
       "state": "pending",
       "photo": "https://img.freepik.com/foto-gratis/hombre-guapo-retrato-feliz_23-2147934018.jpg"
     },
@@ -105,6 +110,7 @@
       "reason": "Extraviado",
       "profile": "Docente",
       "date": "2024-12-25",
+      "observation": "", 
       "state": "pending",
       "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-cabello-rizado-largo_23-2148040232.jpg"
     },
@@ -114,6 +120,7 @@
       "reason": "Nuevo",
       "profile": "Visitante",
       "date": "2024-12-26",
+      "observation": "", 
       "state": "approved",
       "photo": "https://img.freepik.com/foto-gratis/mujer-joven-sonriendo-camara_23-2147889683.jpg"
     },
@@ -123,6 +130,7 @@
       "reason": "Actualización",
       "profile": "Estudiante",
       "date": "2024-12-27",
+      "observation": "", 
       "state": "pending",
       "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-barbudo-moderno-sonriente_23-2147989855.jpg"
     },
@@ -132,6 +140,7 @@
       "reason": "Nuevo",
       "profile": "Contratista",
       "date": "2024-12-28",
+      "observation": "Mala calidad", 
       "state": "rejected",
       "photo": "https://img.freepik.com/foto-gratis/retrato-joven-mujer-moderna-cabello-largo-sonriente_23-2147998479.jpg"
     },
@@ -141,6 +150,7 @@
       "reason": "Extraviado",
       "profile": "Profesor",
       "date": "2024-12-29",
+      "observation": "", 
       "state": "pending",
       "photo": "https://img.freepik.com/foto-gratis/retrato-hombre-joven-sonriente-camisa_23-2148209842.jpg"
     }

@@ -13,6 +13,11 @@ export const routes: Routes = [
     title: 'ITM - Registrarse'
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('@modules/auth/pages/forgot-password/forgot-password.component'),
+    title: 'ITM - Olvidaste tu contraseña'
+  },
+  {
     path: '',
     pathMatch: "full",
     redirectTo: 'login'

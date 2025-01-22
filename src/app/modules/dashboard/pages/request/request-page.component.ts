@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component,  computed,  HostListener,  inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, } from '@angular/forms';
+import { Component,  computed,  effect,  HostListener,  inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { Request } from '@modules/dashboard/interfaces/request.interface';
 import { DashboardService } from '@modules/dashboard/services/dahsboard.service';
 import { RequestsService } from '@modules/dashboard/services/requests.service';
+import { Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 
 
@@ -15,25 +16,36 @@ import Swal from 'sweetalert2';
   imports: [ReactiveFormsModule, CommonModule]
 })
 
-export default class RequestPageComponent implements OnInit {
+export default class RequestPageComponent implements OnInit, OnDestroy {
   private requestsService = inject( RequestsService );
   private fb = inject(FormBuilder);
-  public observation = this.fb.control('')
+  public observation = this.fb.control('', [Validators.required])
   public currentRequest = signal<Request | null>( null )
-  private denied = signal<Request[]>( [] )
+  private rejected = signal<Request[]>( [] )
   private approved = signal<Request[]>( [] )
   private pending = signal<Request[]>( [] )
-  public requests = computed<Request[] | null>( ()=> [...this.pending(), ...this.denied(), ...this.approved() ] )
-  public isModalOpen = false;
-  public modalImage: string | null = null;
+  private filteredRequests = signal<Request[]>( [] )
+  public requests = computed<Request[] | null>( ()=> this.filteredRequests() )
+  private destroy$ = new Subject<void>();
+  public modal = signal<{isModalOpen:boolean, modalImage:string | null}>({ isModalOpen: false, modalImage: null })
+  private filterMap: { [key: string]: () => Request[] } = {
+    pending: () => this.pending(),
+    approved: () => this.approved(),
+    rejected: () => this.rejected(),
+    all: () => [...this.pending(), ...this.approved(), ...this.rejected()]
+  };
+  
 
 
   public ngOnInit(): void {
-    this.requestsService.getAllRequests().subscribe({
+    this.requestsService.getAllRequests()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (data) => {
-          this.denied.set( data.filter( request => request.state === 'rejected'));
+          this.rejected.set( data.filter( request => request.state === 'rejected'));
           this.approved.set( data.filter( request => request.state === 'approved'));
           this.pending.set( data.filter( request => request.state === 'pending'));
+          this.filteredRequests.update(() => [...this.pending(), ...this.approved(), ...this.rejected()])
           this.currentRequest.set( this.pending()[0] ?? [] )
 
       },
@@ -41,6 +53,11 @@ export default class RequestPageComponent implements OnInit {
           console.error('Error fetching requests', err);
       }
   });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public onAceptar( ):void{
@@ -55,14 +72,15 @@ export default class RequestPageComponent implements OnInit {
           this.pending.update((p) => p.filter(r => r.id !== this.currentRequest()!.id))
         }
         else{
-          this.denied.update((d) => d.filter(r => r.id !== this.currentRequest()!.id))
+          this.rejected.update((d) => d.filter(r => r.id !== this.currentRequest()!.id))
         }
         this.approved.update((a) => [...a, {...this.currentRequest()!, state: 'approved'}])
+        this.updateFilteredRequests();
         this.updateCurrentRequest('Aceptado!');
 
       } 
 
-      if( this.isModalOpen ) this.closeModal()
+      if( this.modal().isModalOpen ) this.closeModal()
     });
 
 
@@ -70,6 +88,7 @@ export default class RequestPageComponent implements OnInit {
   }
 
   private updateCurrentRequest(message: string){
+    this.observation.reset()
     if(this.pending().length > 0){
       this.currentRequest.set(this.pending()[0])
       Swal.fire(message, "", "success");
@@ -77,10 +96,11 @@ export default class RequestPageComponent implements OnInit {
     }
     this.currentRequest.set(null)
     Swal.fire(message, "", "success");
+    
   }
 
   public onRechazar(): void {
-    if(this.observation.value?.length === 0){
+    if(this.observation.invalid){
       Swal.fire("Ingresa un motivo para rechazar la solicitud", "", "error");
       return;
     }
@@ -93,7 +113,8 @@ export default class RequestPageComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.pending.update((p) => p.filter(r => r.id !== this.currentRequest()!.id))
-        this.approved.update((a) => [...a, {...this.currentRequest()!, state: 'rejected'}])
+        this.rejected.update((a) => [...a, {...this.currentRequest()!, state: 'rejected'}])
+        this.updateFilteredRequests();
         this.updateCurrentRequest('Rechazado!');
       } 
     });
@@ -101,14 +122,13 @@ export default class RequestPageComponent implements OnInit {
 
   public openModal(imageUrl: string | null): void {
     if (imageUrl) {
-      this.modalImage = imageUrl;
-      this.isModalOpen = true;
+      this.modal.set({isModalOpen:true, modalImage: imageUrl})
+
     }
   }
 
   public closeModal(): void {
-    this.isModalOpen = false;
-    this.modalImage = null;
+    this.modal.set({isModalOpen:false, modalImage: null})
   }
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -117,9 +137,17 @@ export default class RequestPageComponent implements OnInit {
   }
 
   public onFilterchange(e: Event){
-    const target = e.target as HTMLInputElement;
-    console.log(target.value)
+    const target = e.target as HTMLInputElement;  
+    this.filteredRequests.update(this.filterMap[target.value] || this.filterMap['all']);
+  }
+
+  private updateFilteredRequests(){
+    this.filteredRequests.update(() => [...this.pending(),...this.approved(),...this.rejected()])
   }
   
+  setCurrentRequest(request: Request){
+    this.currentRequest.set(request)
+    this.observation.setValue( request.observation )
+  }
 
 }
