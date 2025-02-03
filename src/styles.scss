@@ -10,6 +10,7 @@
   box-sizing: border-box;
 }
 
+
 li{ list-style: none;}
 
 a,img,span,input,select,button { display: block;}
@@ -48,6 +49,7 @@ html{
   border-radius: 4px;
 
 }
+
 
 label{
   @apply block mb-1 text-base font-semibold 

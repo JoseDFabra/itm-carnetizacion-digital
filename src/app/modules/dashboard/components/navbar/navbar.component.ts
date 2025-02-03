@@ -2,8 +2,8 @@ import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnIni
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '@modules/auth/interfaces/user.interface';
 import { AuthService } from '@modules/auth/services/auth.service';
+import { User } from '@shared/interfaces/user.interface';
 
 @Component({
     selector: 'dashboard-navbar',

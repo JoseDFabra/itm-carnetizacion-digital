@@ -53,5 +53,75 @@
         </form>
     </div>
  -->
+    <div class="bg-white max-w-full h-full rounded-lg  shadow-md">
+      <div class="flex justify-between p-4">
+        <div class="relative">
+         <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+             <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+             </svg>
+         </div>
+         <input type="text" id="table-search" class="block pt-4 ps-10  " placeholder="Search for items">
+       </div>
+      
+       <button
+       routerLink="../new-user"
+       class="px-4 py-2 bg-indigo-500 disabled:bg-gray-400 text-white rounded-sm  hover:bg-indigo-600">
+       + Usuario
+     </button>
+      </div>
+      <table class="w-full text-sm font-semibold text-left rtl:text-right text-gray-500 ">
+        <thead class="text-sm text-gray-700 uppercase bg-gray-200  ">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Nombre
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Correo
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Rol
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Estado
+            </th>
+            <th scope="col" class="px-6 py-3">
+              <span class="sr-only">Edit</span>
+            </th>
+      
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users()" class="border-b cursor-pointer hover:opacity-80">
+            <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+              {{user.fullName}}
+            </th>
+            <td class="px-6 py-4">
+              {{user.email}}
+              
+            </td>
+            <td class="px-6 py-4">
+              {{user.role}}
+      
+            </td>
+            <td class="px-6 py-4"
+            [ngClass]="
+            {
+              'text-red-600':!user.isActive,
+              'text-green-600': user.isActive
+            }
+            "
+            >
+              {{user.isActive ? 'Activo' : 'Inactivo'}}
+      
+            </td>
 
- 
+            <td class="px-6 py-4 text-right">
+              <span class="cursor-pointer  font-medium text-blue-600  hover:underline">Editar</span>
+            </td>
+          </tr>
+      
+      
+        </tbody>
+      </table>
+    </div>

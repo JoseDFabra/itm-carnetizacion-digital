@@ -1,0 +1,57 @@
+
+<div class="bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Registrar Usuario</h1>
+    <form class="space-y-6" [formGroup]="form">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="fullName" class="block font-medium text-gray-700">Nombre Completo</label>
+          <input
+            formControlName="fullName"
+            id="fullName"
+            type="text"
+            placeholder="Introduce el nombre completo"
+          />
+        </div>
+        <div>
+          <label for="email" class="block font-medium text-gray-700">Correo</label>
+          <input
+            formControlName="email"
+            id="email"
+            type="email"
+            placeholder="Introduce el correo"
+          />
+        </div>
+      </div>
+  
+      <div>
+        <label for="password" class="block font-medium text-gray-700">Contraseña</label>
+        <input
+          formControlName="password"
+          id="password"
+          type="password"
+          placeholder="Introduce la contraseña"
+        />
+      </div>
+
+      <div>
+        <label for="role" class="block font-medium text-gray-700">Rol</label>
+        <select
+          formControlName="role"
+          id="role"
+        >
+          <option value="" disabled selected>Selecciona un rol</option>
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </div>
+
+      <div class="text-right">
+        <button
+          type="button"
+          class="px-6 py-2 bg-indigo-500 text-white rounded-sm shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Registrar Usuario
+        </button>
+      </div>
+    </form>
+  </div>
+  

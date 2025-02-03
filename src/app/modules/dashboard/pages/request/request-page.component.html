@@ -93,6 +93,84 @@
   </div>
 </div>
 
+
+<div
+  *ngIf="modal().isModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+>
+  <div
+    class="relative bg-white rounded-sm shadow-xl overflow-hidden w-11/12 md:w-3/4 lg:w-1/2 p-6"
+  >
+    <div class="flex items-center justify-between border-b border-gray-200 pb-3">
+      <h3 class="text-lg font-semibold text-gray-800">Archivos de la Solicitud</h3>
+      <button
+        class="text-gray-400 hover:text-gray-600"
+        (click)="closeModal()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Tabla de Archivos -->
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b">
+            <th class="py-2 px-4 text-gray-600">Nombre del Archivo</th>
+            <th class="py-2 px-4 text-gray-600">Tipo</th>
+            <th class="py-2 px-4 text-gray-600 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let archivo of modalData.archivos"
+            class="border-b hover:bg-gray-50"
+          >
+            <td class="py-2 px-4">{{ archivo.nombre }}</td>
+            <td class="py-2 px-4">{{ archivo.tipo }}</td>
+            <td class="py-2 flex justify-center px-4 text-center space-x-2">
+              <button
+                class="px-2 py-1 text-sm text-white bg-green-700 rounded hover:bg-green-800"
+                (click)="verArchivo(archivo)"
+              >
+                Ver
+              </button>
+              <button
+                class="px-2 py-1 text-sm text-white bg-indigo-600 rounded hover:bg-indigo-600"
+                (click)="descargarArchivo(archivo)"
+              >
+                Descargar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 flex justify-end space-x-4 border-t border-gray-200 pt-3">
+      <button
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-sm hover:bg-gray-200"
+        (click)="closeModal()"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+
     
     <div class="bg-white relative overflow-x-auto h-96 shadow-md sm:rounded-lg">
     
@@ -140,7 +218,7 @@
 
 
 
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+    <table class="w-full text-sm font-semibold text-left rtl:text-right text-gray-500 ">
       <thead class="text-sm text-gray-700 uppercase bg-gray-200  ">
         <tr>
           <th scope="col" class="px-6 py-3">
@@ -162,14 +240,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let request of requests()" 
+        <tr *ngFor="let request of requests()"  (click)=" setCurrentRequest( request ) " 
         [ngClass]="
         {'bg-green-200': request.state === 'approved',
           'bg-red-200': request.state ==='rejected',
         }
         "
         class="border-b cursor-pointer hover:opacity-80">
-          <th (click)=" setCurrentRequest( request ) " class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+          <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
             {{ request.fullName }}
           </th>
           <td class="px-6 py-4">

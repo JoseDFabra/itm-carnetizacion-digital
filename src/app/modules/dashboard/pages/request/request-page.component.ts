@@ -34,6 +34,7 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
     rejected: () => this.rejected(),
     all: () => [...this.pending(), ...this.approved(), ...this.rejected()]
   };
+  public page = 1
   
 
 
@@ -148,6 +149,32 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
   setCurrentRequest(request: Request){
     this.currentRequest.set(request)
     this.observation.setValue( request.observation )
+  }
+
+
+
+  modalData = {
+    isModalOpen: true,
+    archivos: [
+      { nombre: 'Foto', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
+      { nombre: 'Acta de inicio', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
+      { nombre: 'Acta de grado', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
+      { nombre: 'Comprobante de pago', tipo: 'PDF', url: 'https://example.com/comprobante.pdf' },
+    ],
+  }
+
+  
+
+
+  verArchivo(archivo: { url: string; tipo: string }) {
+    window.open(archivo.url, '_blank');
+  }
+
+  descargarArchivo(archivo: { url: string; nombre: string }) {
+    const link = document.createElement('a');
+    link.href = archivo.url;
+    link.download = archivo.nombre;
+    link.click();
   }
 
 }

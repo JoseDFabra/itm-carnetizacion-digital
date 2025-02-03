@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { QRService } from '@modules/dashboard/services/qr.service';
 
 @Component({
     selector: 'generate-qr',
     templateUrl: 'generate-qr-page.component.html',
     standalone: true,
-    imports: [ ReactiveFormsModule ] 
+    imports: [ ReactiveFormsModule, RouterModule ] 
 })
 
 export default class GenerateQRPageComponent implements OnInit {

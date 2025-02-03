@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadComponent: () => import('@modules/dashboard/pages/users/users-page.component')
       },
       {
+        path: 'new-user',
+        loadComponent: () => import('@modules/dashboard/pages/new-user/new-user-page.component')
+      },
+      {
         path: '**',
         redirectTo: 'requests'
       }

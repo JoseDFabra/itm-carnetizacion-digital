@@ -6,14 +6,16 @@
       "fullName": "jose",
       "email": "joseperez@gmail.com",
       "password": "123456",
+      "role": "Superadmin",
       "isActive": true
     },
     {
       "id": "2",
       "idType": "CC",
-      "fullNname": "Fabra",
+      "fullName": "Fabra",
       "email": "fabra@gmail.com",
       "password": "1111",
+      "role": "Admin",
       "isActive": true
     },
     {
@@ -21,35 +23,50 @@
       "idType": "CC",
       "fullName": "Jose Fabra",
       "email": "josefabra236598@correo.itm.edu.co",
-      "password": "123123123"
+      "password": "123123123",
+      "role": "Superadmin",
+      "isActive": false
+      
     },
     {
       "id": "3",
       "idType": "CC",
       "fullName": "Jorge",
       "email": "jorge@gmail.com",
-      "password": "123123123"
+      "password": "123123123",
+      "role": "Admin",
+      "isActive": false
+      
     },
     {
       "id": "333",
       "idType": "CC",
       "fullName": "Jose Fabra",
       "email": "josefabra236598@correo.itm.edu.co",
-      "password": "12345678"
+      "password": "12345678",
+      "role": "Admin",
+      "isActive": true
+      
     },
     {
       "id": "1",
       "idType": "TI",
       "fullName": "111@s.com",
       "email": "111@s.com",
-      "password": "123123123123"
+      "password": "123123123123",
+      "role": "Admin",
+      "isActive": true
+      
     },
     {
       "id": "777",
       "idType": "TI",
       "fullName": "Jose Tapias",
       "email": "j.fabra25@gmail.com",
-      "password": "123123123"
+      "password": "123123123",
+      "role": "Admin",
+      "isActive": true
+
     }
   ],
   "carnets":[],

@@ -4,7 +4,8 @@ import { catchError, map, Observable, of, tap, throwError  } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 import { AuthStatus } from '../enums/auth-status.enum';
-import { User } from '../interfaces/user.interface';
+import { User } from '@shared/interfaces/user.interface';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
