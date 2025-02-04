@@ -1,32 +1,33 @@
 
-  <div *ngIf="currentRequest()" class="max-w-full h-full mb-5 mx-auto p-6 bg-white rounded-lg  shadow-md">
+  <div *ngIf="solicitudActual()?.documento" class="max-w-full h-full mb-5 mx-auto p-6 bg-white rounded-lg  shadow-md">
     <div  class="grid lg:grid-cols-2 items-start grid-cols-1 ">
       <div class="flex space-x-4">
-        <img *ngIf="currentRequest()?.photo"
+        <img *ngIf="solicitudActual()?.foto"  
         class="w-52 h-52 rounded-md object-cover cursor-pointer"
-        [src]="currentRequest()?.photo"
-        [alt]="'Foto de ' + currentRequest()!.fullName"
-        (click)="openModal(currentRequest()!.photo)" />
+        [src]="solicitudActual()?.foto"
+        [alt]="'Foto de ' + solicitudActual()!.nombres"
+        (click)="openModal(solicitudActual()!.foto)" />
         <div>
-          <h3 class="text-xl font-semibold">{{ currentRequest()!.fullName }}</h3>
-          <p class="text-gray-600">Documento: {{ currentRequest()!.id }}</p>
-          <p class="text-gray-600">Motivo: {{ currentRequest()!.reason }}</p>
-          <p class="text-gray-600">Perfil: {{ currentRequest()!.profile }}</p>
+          <h3 class="text-xl font-semibold">{{ solicitudActual()!.nombres  }} {{ solicitudActual()?.apellidos }}</h3>
+          <p class="text-gray-600">Documento: {{ solicitudActual()!.documento }}</p>
+          <p class="text-gray-600">Correo: {{ solicitudActual()!.correo_electronico }}</p>
+          <p class="text-gray-600">Estado: {{ solicitudActual()!.estado | titlecase }}</p>
+
         </div>
       </div>
   
       <div class="flex flex-col h-full justify-between lg:mt-0 mt-2">
         <div class="w-full lg:mb-0 mb-10 lg:mt-0 mt-6">
           <label for="observacion" class="block text-gray-700">Observación</label>
-          <textarea id="observacion" [formControl]="observation" [value]="currentRequest()!.observation"
+          <textarea id="observacion" [formControl]="observacion" [value]="solicitudActual()!.observacion"
             class="w-full h-full  mt-1 p-2 border rounded-sm " rows="3"></textarea>
         </div>
         <div class="mt-2 flex space-x-4">
-          <button (click)="onAceptar()" [disabled]="currentRequest()!.state === 'approved'"
+          <button (click)="onAceptar()" [disabled]="solicitudActual()!.estado === 'aprobado'"
             class="px-4 py-2 bg-indigo-500 disabled:bg-gray-400 text-white rounded-sm  hover:bg-indigo-600">
             Aceptar
           </button>
-          <button (click)="onRechazar()" [disabled]="currentRequest()!.state === 'approved' || currentRequest()!.state === 'rejected' "
+          <button (click)="onRechazar()" [disabled]="solicitudActual()!.estado === 'aprobado' || solicitudActual()!.estado === 'rechazado' "
             class="px-4 py-2 bg-red-500 disabled:bg-gray-400 text-white rounded-sm  hover:bg-red-600">
             Rechazar
           </button>
@@ -94,7 +95,7 @@
 </div>
 
 
-<div
+<!-- <div
   *ngIf="modal().isModalOpen"
   class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
 >
@@ -123,8 +124,6 @@
         </svg>
       </button>
     </div>
-
-    <!-- Tabla de Archivos -->
     <div class="mt-4 overflow-x-auto">
       <table class="w-full text-left border-collapse">
         <thead>
@@ -169,50 +168,50 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
 
-    
-    <div class="bg-white relative overflow-x-auto h-96 shadow-md sm:rounded-lg">
-    
-          <div class="p-4 flex justify-between items-center  ">
-            <div class="relative w-64">
-              <select
-                (change)="onFilterchange($event)"
+
+<div class="p-4 flex justify-between items-center  ">
+          <div class="relative w-64">
+            <select
+              (change)="onFilterchange($event)"
+            >
+              <option selected value="all">Todos</option>
+              <option value="pendiente">Pendientes</option>
+              <option value="aprobado">Aprobados</option>
+              <option value="rechazado">Rechazados</option>
+            </select>
+            <!-- Flechita -->
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <option selected value="all">Todos</option>
-                <option value="pending">Pendientes</option>
-                <option value="approved">Aprobados</option>
-                <option value="rejected">Rechazados</option>
-              </select>
-              <!-- Flechita -->
-              <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-gray-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </span>
-            </div>
-            
-            <div >
-      
-                <!-- <div class="relative">
-                    <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </div>
-                    <input type="text" id="table-search" class="block pt-4 ps-10  " placeholder="Search for items">
-                </div> -->
-            </div>
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
           </div>
+          
+          <div >
+    
+              <!-- <div class="relative">
+                  <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                      <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                      </svg>
+                  </div>
+                  <input type="text" id="table-search" class="block pt-4 ps-10  " placeholder="Search for items">
+              </div> -->
+          </div>
+        </div>
+<div class="bg-white relative overflow-x-auto h-96 shadow-md sm:rounded-lg">
+  
       
 
 
@@ -228,10 +227,10 @@
             Documento
           </th>
           <th scope="col" class="px-6 py-3">
-            Motivo del carné
+            Correo
           </th>
           <th scope="col" class="px-6 py-3">
-            Perfil
+            Estado
           </th>
           <th scope="col" class="px-6 py-3">
             <span class="sr-only">Edit</span>
@@ -240,27 +239,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let request of requests()"  (click)=" setCurrentRequest( request ) " 
-        [ngClass]="
-        {'bg-green-200': request.state === 'approved',
-          'bg-red-200': request.state ==='rejected',
-        }
-        "
+        <tr *ngFor="let request of solicitudes()"  (click)=" setSolicitudActual( request ) " 
+
         class="border-b cursor-pointer hover:opacity-80">
           <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-            {{ request.fullName }}
+            {{ request.nombres }}
           </th>
           <td class="px-6 py-4">
-            {{ request.id}}
+            {{ request.documento}}
           </td>
           <td class="px-6 py-4">
-            {{ request.reason }}
+            {{request.correo_electronico }}
           </td>
-          <td class="px-6 py-4">
-            {{request.profile }}
+          <td class="px-6 py-4"
+          [ngClass]="{
+            'text-red-500': request.estado === 'rechazado',
+            'text-green-500': request.estado === 'aprobado',
+            'text-blue-500': request.estado === 'pendiente'
+          }"
+          
+          >
+            {{request.estado | titlecase }}
           </td>
           <td class="px-6 py-4 text-right">
-            <span class="cursor-pointer  font-medium text-blue-600  hover:underline" (click)=" currentRequest.set( request ) ">Ver</span>
+            <span class="cursor-pointer  font-medium text-blue-600  hover:underline" (click)=" solicitudActual.set( request ) ">Ver</span>
           </td>
         </tr>
   

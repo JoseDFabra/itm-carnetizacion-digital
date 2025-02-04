@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { Request } from '../interfaces/request.interface';
-import { RequestsService } from './requests.service';
+import { SolicitudesService } from './solicitudes.service';
+import { Solicitud } from '../interfaces/solicitud.interface';
+
 
 @Injectable({providedIn: 'root'})
 export class DashboardService {
     private http = inject( HttpClient )
-    private requestsService = inject( RequestsService );
+    private solicitudesService = inject( SolicitudesService );
     public pendings  = signal( 0 )
     private url = environment.baseUrl + '/requests'
 
@@ -17,8 +18,8 @@ export class DashboardService {
         this.getAllRequests().subscribe( { error: (err) => console.error(err) } )
     }
 
-    public getAllRequests():Observable<Request[]>{
-        return this.requestsService.getAllRequests()
+    public getAllRequests():Observable<Solicitud[]>{
+        return this.solicitudesService.getSolicitudes()
         .pipe(
             tap((r) => this.pendings.set( r.length )),
             tap((r) => this.setLocalStorage( r.length )),

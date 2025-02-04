@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component,  computed,  effect,  HostListener,  inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, } from '@angular/forms';
-import { Request } from '@modules/dashboard/interfaces/request.interface';
+import { Solicitud } from '@modules/dashboard/interfaces/solicitud.interface';
 import { DashboardService } from '@modules/dashboard/services/dahsboard.service';
-import { RequestsService } from '@modules/dashboard/services/requests.service';
-import { Subject, takeUntil } from 'rxjs';
+import { SolicitudesService } from '@modules/dashboard/services/solicitudes.service';
+import { Estado } from '@shared/enums/estado.enum';
+import { Subject, takeUntil, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 
 
@@ -17,37 +18,37 @@ import Swal from 'sweetalert2';
 })
 
 export default class RequestPageComponent implements OnInit, OnDestroy {
-  private requestsService = inject( RequestsService );
+  private solicitudesService = inject( SolicitudesService );
   private fb = inject(FormBuilder);
-  public observation = this.fb.control('', [Validators.required])
-  public currentRequest = signal<Request | null>( null )
-  private rejected = signal<Request[]>( [] )
-  private approved = signal<Request[]>( [] )
-  private pending = signal<Request[]>( [] )
-  private filteredRequests = signal<Request[]>( [] )
-  public requests = computed<Request[] | null>( ()=> this.filteredRequests() )
+  public observacion = this.fb.control('', [Validators.required]);
+  public solicitudActual = signal<Solicitud | null>( null );
+  private rechazados = signal<Solicitud[]>( [] );
+  private aprobados = signal<Solicitud[]>( [] );
+  private pendientes = signal<Solicitud[]>( [] );
+  private solicitudesFiltradas = signal<Solicitud[]>( [] );
+  public solicitudes = computed<Solicitud[] | null>( ()=> this.solicitudesFiltradas() );
   private destroy$ = new Subject<void>();
   public modal = signal<{isModalOpen:boolean, modalImage:string | null}>({ isModalOpen: false, modalImage: null })
-  private filterMap: { [key: string]: () => Request[] } = {
-    pending: () => this.pending(),
-    approved: () => this.approved(),
-    rejected: () => this.rejected(),
-    all: () => [...this.pending(), ...this.approved(), ...this.rejected()]
+  private filterMap: { [key: string]: () => Solicitud[] } = {
+    pendiente: () => this.pendientes(),
+    aprobado: () => this.aprobados(),
+    rechazado: () => this.rechazados(),
+    all: () => [...this.pendientes(), ...this.aprobados(), ...this.rechazados()]
   };
   public page = 1
   
 
 
   public ngOnInit(): void {
-    this.requestsService.getAllRequests()
-    .pipe(takeUntil(this.destroy$))
+    this.solicitudesService.getSolicitudes(20)
+    .pipe(takeUntil(this.destroy$), tap(d => console.log(d.length)))
     .subscribe({
       next: (data) => {
-          this.rejected.set( data.filter( request => request.state === 'rejected'));
-          this.approved.set( data.filter( request => request.state === 'approved'));
-          this.pending.set( data.filter( request => request.state === 'pending'));
-          this.filteredRequests.update(() => [...this.pending(), ...this.approved(), ...this.rejected()])
-          this.currentRequest.set( this.pending()[0] ?? [] )
+          this.rechazados.set( data.filter( soli => soli.estado === Estado.rechazado));
+          this.aprobados.set( data.filter( soli => soli.estado === Estado.aprobado));
+          this.pendientes.set( data.filter( soli => soli.estado === Estado.pendiente));
+          this.solicitudesFiltradas.update(() => [...this.pendientes(), ...this.aprobados(), ...this.rechazados()])
+          this.solicitudActual.set( this.pendientes()[0] ?? [] )
 
       },
       error: (err) => {
@@ -69,15 +70,27 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
       denyButtonText: `Cancelar`
     }).then((result) => {
       if (result.isConfirmed) {
-        if( this.currentRequest()!.state === 'pending'){
-          this.pending.update((p) => p.filter(r => r.id !== this.currentRequest()!.id))
-        }
-        else{
-          this.rejected.update((d) => d.filter(r => r.id !== this.currentRequest()!.id))
-        }
-        this.approved.update((a) => [...a, {...this.currentRequest()!, state: 'approved'}])
-        this.updateFilteredRequests();
-        this.updateCurrentRequest('Aceptado!');
+        this.solicitudesService.updateSolicitud( {estado: Estado.aprobado, observacion: this.observacion.value!}, this.solicitudActual()!.documento)
+        .subscribe(
+          {
+            next: (data) => {
+              console.log(data)
+              if( this.solicitudActual()!.estado === Estado.pendiente){
+                this.pendientes.update((p) => p.filter(r => r.id !== this.solicitudActual()!.id))
+              }
+              else{
+                this.rechazados.update((d) => d.filter(r => r.id !== this.solicitudActual()!.id))
+              }
+              this.aprobados.update((a) => [...a, {...this.solicitudActual()!, estado: Estado.aprobado}])
+              this.updateSolicitudesFiltradas();
+              this.updateSolicitudActual('Aceptado!');
+            },
+            error: (err) => {
+              console.error('Error updating request', err);
+              Swal.fire("Hubo un error al rechazar la solicitud", "", "error");
+            }
+          }
+        )
 
       } 
 
@@ -88,24 +101,24 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
     
   }
 
-  private updateCurrentRequest(message: string){
-    this.observation.reset()
-    if(this.pending().length > 0){
-      this.currentRequest.set(this.pending()[0])
+  private updateSolicitudActual(message: string){
+    this.observacion.reset()
+    if(this.pendientes().length > 0){
+      this.solicitudActual.set(this.pendientes()[0])
       Swal.fire(message, "", "success");
       return;
     }
-    this.currentRequest.set(null)
+    this.solicitudActual.set(null)
     Swal.fire(message, "", "success");
     
   }
 
   public onRechazar(): void {
-    if(this.observation.invalid){
+    if(this.observacion.invalid){
       Swal.fire("Ingresa un motivo para rechazar la solicitud", "", "error");
       return;
     }
-    if(!this.currentRequest()) return;
+    if(!this.solicitudActual()) return;
     Swal.fire({
       title: "¿Rechazar solicitud de carnetización?",
       showDenyButton: true,
@@ -113,10 +126,21 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
       denyButtonText: `Cancelar`
     }).then((result) => {
       if (result.isConfirmed) {
-        this.pending.update((p) => p.filter(r => r.id !== this.currentRequest()!.id))
-        this.rejected.update((a) => [...a, {...this.currentRequest()!, state: 'rejected'}])
-        this.updateFilteredRequests();
-        this.updateCurrentRequest('Rechazado!');
+        this.solicitudesService.updateSolicitud( {estado: Estado.rechazado, observacion: this.observacion.value!}, this.solicitudActual()!.documento)
+        .subscribe(
+          {
+            next: (data) => {
+              this.pendientes.update((p) => p.filter(r => r.id !== this.solicitudActual()!.id))
+              this.rechazados.update((a) => [...a, {...this.solicitudActual()!, state: 'rechazados'}])
+              this.updateSolicitudesFiltradas();
+              this.updateSolicitudActual('Rechazado!');
+            },
+            error: (err) => {
+              console.error('Error updating request', err);
+              Swal.fire("Hubo un error al intentar rechazar la solicitud", "", "error");
+            }
+          }
+        )
       } 
     });
   }
@@ -139,16 +163,16 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
 
   public onFilterchange(e: Event){
     const target = e.target as HTMLInputElement;  
-    this.filteredRequests.update(this.filterMap[target.value] || this.filterMap['all']);
+    this.solicitudesFiltradas.update(this.filterMap[target.value] || this.filterMap['all']);
   }
 
-  private updateFilteredRequests(){
-    this.filteredRequests.update(() => [...this.pending(),...this.approved(),...this.rejected()])
+  private updateSolicitudesFiltradas(){
+    this.solicitudesFiltradas.update(() => [...this.pendientes(),...this.aprobados(),...this.rechazados()])
   }
   
-  setCurrentRequest(request: Request){
-    this.currentRequest.set(request)
-    this.observation.setValue( request.observation )
+  setSolicitudActual(soli: Solicitud){
+    this.solicitudActual.set(soli)
+    this.observacion.setValue( soli.observacion )
   }
 
 
@@ -159,12 +183,8 @@ export default class RequestPageComponent implements OnInit, OnDestroy {
       { nombre: 'Foto', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
       { nombre: 'Acta de inicio', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
       { nombre: 'Acta de grado', tipo: 'Imagen', url: 'https://example.com/imagen.jpg' },
-      { nombre: 'Comprobante de pago', tipo: 'PDF', url: 'https://example.com/comprobante.pdf' },
     ],
   }
-
-  
-
 
   verArchivo(archivo: { url: string; tipo: string }) {
     window.open(archivo.url, '_blank');
